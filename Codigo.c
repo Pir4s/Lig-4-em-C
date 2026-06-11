@@ -1,7 +1,7 @@
 #include<stdio.h>
 int main()
 {
-    int lin, col, coluna, vez, finalizar, contadorX, contadorO;
+    int lin, col, coluna, vez, finalizar, contadorX1=0, contadorO1=0, linha, contadorX2=0, contadorO2=0, contadorX3=0, contadorO3=0;
     char tabuleiro[6][7] = 
     {
        {' ', ' ', ' ', ' ', ' ', ' ', ' '},
@@ -11,26 +11,34 @@ int main()
        {' ', ' ', ' ', ' ', ' ', ' ', ' '},
        {' ', ' ', ' ', ' ', ' ', ' ', ' '}
     };
-    for (int col=0; col<7; col++)
-    {
-        for (lin=0; lin<6; lin++)
-        {
-            printf("|%c", tabuleiro[lin][col]);
-        }
-        printf("|\n");
-    }
     vez = 0;
     finalizar = 0;
     while(finalizar != 1)
     {
-        printf("Escolha a Coluna --> ");
+        for (lin=0; lin<6; lin++)//PRINTA O TABULEIRO
+        {
+            for (col=0; col<7; col++)
+            {
+                printf("|%c", tabuleiro[lin][col]);
+            }
+            printf("|\n");
+        }
+        if ((vez+1)%2 != 0) //Jogador 1 Impar, Jogador 2 Par
+        {
+            printf("Escolha a Coluna Jogador 1 --> ");
+        }
+        else
+        {
+            printf("Escolha a Coluna Jogador 2 --> ");
+        }
         scanf("%d", &col);
         col--;
-        if (col<0 || col>6)
+        if (col<0 || col>6)//invalida a coluna
         {
             printf("Coluna Invalida\n");
+            continue;
         }
-        for(lin=0;lin<=5;lin++)
+        for(lin=5;lin>=0;lin--)//COLOCA A PEÇA
         {
             if (tabuleiro[lin][col] == ' ')
             {
@@ -42,32 +50,61 @@ int main()
                {
                    tabuleiro[lin][col] = 'O';
                }
-                lin=10;//break;
+                break;
             }
             if (vez>5)//VERIFICADOR DE VITORIA/EMPATE
             {
-                for(col=0;col<=6;col++)
+                for(coluna=0;coluna<=6;coluna++)
                 {
-                    for(lin=0;lin<=5;lin++)
+                    for(linha=0;linha<=5;linha++)
                     {
-                        if (tabuleiro[lin][col] == 'X')
+                        if (tabuleiro[linha][coluna] == 'X')
                         {
-                            contadorX++;
+                            contadorO1=0;
+                            contadorX1++;
                         }
-                        else
+                        else if (tabuleiro[linha][coluna] == 'O')
                         {
-                            contadorO++;
+                            contadorX1=0;
+                            contadorO1++;
                         }
                     }
                 }
-                if (contadorX == 4)
+                if (contadorX1 == 4)
                 {
                     printf("Jogador 1 venceu\n");
                     finalizar=1;
                 }
-                else if (contadorO ==4)
+                else if (contadorO1 == 4)
                 {
                     printf("Jogador 2 venceu\n");
+                    finalizar=1;
+                }
+                for(coluna=0;coluna<=6;coluna++)
+                {
+                    for(linha=0;linha<=5;linha++)
+                    {
+                        if (tabuleiro[coluna][linha] == 'X')
+                        {
+                            contadorO2=0;
+                            contadorX2++;
+                        }
+                        else if (tabuleiro[coluna][linha] == 'O')
+                        {
+                            contadorX2=0;
+                            contadorO2++;
+                        }
+                    }
+                }
+                if (contadorX2 == 4)
+                {
+                    printf("Jogador 1 venceu\n");
+                    finalizar=1;
+                }
+                else if (contadorO2 == 4)
+                {
+                    printf("Jogador 2 venceu\n");
+                    finalizar=1;
                 }
             }
         }
@@ -78,12 +115,12 @@ int main()
                         0   1    2    3    4    5    6
                         ^   ^    ^    ^    ^    ^    ^
                         |   |    |    |    |    |    |
-               5 --> | 50 | 51 | 52 | 53 | 54 | 55 | 56 |
-               4 --> | 40 | 41 | 42 | 43 | 44 | 45 | 46 |
-               3 --> | 30 | 31 | 32 | 33 | 34 | 35 | 36 |
-               2 --> | 20 | 21 | 22 | 23 | 24 | 25 | 26 |
-               1 --> | 10 | 11 | 12 | 13 | 14 | 15 | 16 |
-               0 --> | 00 | 01 | 02 | 03 | 04 | 05 | 06 |
+               0 --> | 50 | 51 | 52 | 53 | 54 | 55 | 56 |
+               1 --> | 40 | 41 | 42 | 43 | 44 | 45 | 46 |
+               2 --> | 30 | 31 | 32 | 33 | 34 | 35 | 36 |
+               3 --> | 20 | 21 | 22 | 23 | 24 | 25 | 26 |
+               4 --> | 10 | 11 | 12 | 13 | 14 | 15 | 16 |
+               5 --> |0 0 | 01 | 02 | 03 | 04 | 05 | 06 |
                     " "  
                     3 valores para a matriz ' ', "X" e "O"
                     
