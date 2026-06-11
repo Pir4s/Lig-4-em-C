@@ -1,7 +1,7 @@
 #include<stdio.h>
 int main()
 {
-    int lin, col, coluna, vez, finalizar, contadorX1=0, contadorO1=0, linha, contadorX2=0, contadorO2=0, contadorX3=0, contadorO3=0;
+    int lin, col, coluna, vez, finalizar, conta, linha;
     char tabuleiro[6][7] = 
     {
        {' ', ' ', ' ', ' ', ' ', ' ', ' '},
@@ -23,7 +23,7 @@ int main()
             }
             printf("|\n");
         }
-        if ((vez+1)%2 != 0) //Jogador 1 Impar, Jogador 2 Par
+        if (vez%2 == 0)//VEZ DO JOGADOR 1 Par
         {
             printf("Escolha a Coluna Jogador 1 --> ");
         }
@@ -31,7 +31,7 @@ int main()
         {
             printf("Escolha a Coluna Jogador 2 --> ");
         }
-        scanf("%d", &col);
+        scanf("%d", &col);//LE A COLUNA ESCOLHIDA
         col--;
         if (col<0 || col>6)//invalida a coluna
         {
@@ -50,62 +50,120 @@ int main()
                {
                    tabuleiro[lin][col] = 'O';
                }
-                break;
+                break;//Sai do for quando a peça for colocada
             }
-            if (vez>5)//VERIFICADOR DE VITORIA/EMPATE
+        }// peca foi colocada, agora verificar se o jogador venceu ou empatou
+        char peca;
+        if (vez % 2 == 0)
+        {
+            peca = 'X';
+        } else {
+            peca = 'O';
+        }
+        if (vez>5)
+        {
+            for (coluna = 0; coluna <= 3; coluna++)//verificar horizontalmente
             {
-                for(coluna=0;coluna<=6;coluna++)
+                if (tabuleiro[lin][coluna] == peca &&
+                    tabuleiro[lin][coluna+1] == peca &&
+                    tabuleiro[lin][coluna+2] == peca &&
+                    tabuleiro[lin][coluna+3] == peca)
                 {
-                    for(linha=0;linha<=5;linha++)
+                    for (lin=0; lin<6; lin++)//PRINTA O TABULEIRO
                     {
-                        if (tabuleiro[linha][coluna] == 'X')
+                        for (col=0; col<7; col++)
                         {
-                            contadorO1=0;
-                            contadorX1++;
+                            printf("|%c", tabuleiro[lin][col]);
                         }
-                        else if (tabuleiro[linha][coluna] == 'O')
+                        printf("|\n");
+                    }
+                    printf("Jogador %c venceu!\n", peca);
+                    finalizar = 1;
+                    break;
+                }
+            }
+
+            for (linha = 0; linha <= 2; linha++)//verificar verticalmente
+            {
+                if (tabuleiro[linha][col] == peca &&
+                    tabuleiro[linha+1][col] == peca &&
+                    tabuleiro[linha+2][col] == peca &&
+                    tabuleiro[linha+3][col] == peca)
+                {
+                    for (lin=0; lin<6; lin++)//PRINTA O TABULEIRO
+                    {
+                        for (col=0; col<7; col++)
                         {
-                            contadorX1=0;
-                            contadorO1++;
+                            printf("|%c", tabuleiro[lin][col]);
                         }
+                        printf("|\n");
+                    }
+                    printf("Jogador %c venceu!\n", peca);
+                    finalizar = 1;
+                    break;
+                }
+            }
+
+                if (lin <= 2 && col <= 3 &&
+                tabuleiro[lin][col] == peca &&
+                tabuleiro[lin+1][col+1] == peca &&
+                tabuleiro[lin+2][col+2] == peca &&
+                tabuleiro[lin+3][col+3] == peca)
+            {
+                for (lin=0; lin<6; lin++)//PRINTA O TABULEIRO
+                {
+                    for (col=0; col<7; col++)
+                    {
+                        printf("|%c", tabuleiro[lin][col]);
+                    }
+                    printf("|\n");
+                }
+                
+                printf("Jogador %c venceu!\n", peca);
+                finalizar = 1;
+            }
+
+
+            if (lin <= 2 && col >= 3 &&
+            tabuleiro[lin][col] == peca &&
+            tabuleiro[lin+1][col-1] == peca &&
+            tabuleiro[lin+2][col-2] == peca &&
+            tabuleiro[lin+3][col-3] == peca)
+            {
+                for (lin=0; lin<6; lin++)//PRINTA O TABULEIRO
+                {
+                    for (col=0; col<7; col++)
+                    {
+                        printf("|%c", tabuleiro[lin][col]);
+                    }
+                    printf("|\n");
+                }
+                printf("Jogador %c venceu!\n", peca);
+                finalizar = 1;
+            }
+            int cheio = 1; // assume que o tabuleiro está cheio
+            for (lin = 0; lin < 6; lin++)
+            {
+                for (coluna = 0; coluna < 7; coluna++)
+                {
+                    if (tabuleiro[lin][coluna] == ' ')
+                    {
+                        cheio = 0; // ainda tem espaço
                     }
                 }
-                if (contadorX1 == 4)
+            }
+            if (cheio == 1)
+            {
+                for (lin=0; lin<6; lin++)//PRINTA O TABULEIRO
                 {
-                    printf("Jogador 1 venceu\n");
-                    finalizar=1;
-                }
-                else if (contadorO1 == 4)
-                {
-                    printf("Jogador 2 venceu\n");
-                    finalizar=1;
-                }
-                for(coluna=0;coluna<=6;coluna++)
-                {
-                    for(linha=0;linha<=5;linha++)
+                    for (col=0; col<7; col++)
                     {
-                        if (tabuleiro[coluna][linha] == 'X')
-                        {
-                            contadorO2=0;
-                            contadorX2++;
-                        }
-                        else if (tabuleiro[coluna][linha] == 'O')
-                        {
-                            contadorX2=0;
-                            contadorO2++;
-                        }
+                        printf("|%c", tabuleiro[lin][col]);
                     }
+                    printf("|\n");
                 }
-                if (contadorX2 == 4)
-                {
-                    printf("Jogador 1 venceu\n");
-                    finalizar=1;
-                }
-                else if (contadorO2 == 4)
-                {
-                    printf("Jogador 2 venceu\n");
-                    finalizar=1;
-                }
+                printf("Empate\n");
+                finalizar = 1;
             }
         }
         vez++;
